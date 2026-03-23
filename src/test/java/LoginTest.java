@@ -1,40 +1,40 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class LoginTest {
 
     WebDriver driver;
 
-@BeforeEach
-public void setup() {
-    WebDriverManager.chromedriver().setup();
+    @BeforeEach
+    public void setup() {
+        WebDriverManager.chromedriver().setup();
 
-    ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless");
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-dev-shm-usage");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
 
-WebDriver driver = new ChromeDriver(options);
-    
-}
+        driver = new ChromeDriver(options);
+    }
 
-@AfterEach
-public void teardown() {
-    driver.quit();
-}
+    @AfterEach
+    public void teardown() {
+        driver.quit();
+    }
 
     @Test
     public void realizarLoginComSucesso() throws InterruptedException {
-       
+
         driver.get("https://the-internet.herokuapp.com/login");
 
         WebElement campoUsuario = driver.findElement(By.id("username"));
@@ -44,7 +44,7 @@ public void teardown() {
         campoSenha.sendKeys("SuperSecretPassword!");
 
         WebElement botaoLogin = driver.findElement(By.cssSelector("button[type='submit']"));
-        botaoLogin.click(); 
+        botaoLogin.click();
 
         Thread.sleep(2000);
 
@@ -52,12 +52,11 @@ public void teardown() {
         String textoMensagem = mensagem.getText();
 
         Assertions.assertTrue(textoMensagem.contains("You logged into a secure area!"));
-
     }
 
     @Test
     public void realizarLoginComSenhaInvalida() throws InterruptedException {
-        
+
         driver.get("https://the-internet.herokuapp.com/login");
 
         WebElement campoUsuario = driver.findElement(By.id("username"));
@@ -67,7 +66,7 @@ public void teardown() {
         campoSenha.sendKeys("senhaErrada");
 
         WebElement botaoLogin = driver.findElement(By.cssSelector("button[type='submit']"));
-        botaoLogin.click(); 
+        botaoLogin.click();
 
         Thread.sleep(2000);
 
@@ -75,6 +74,5 @@ public void teardown() {
         String textoMensagem = mensagem.getText();
 
         Assertions.assertTrue(textoMensagem.contains("Your password is invalid!"));
-
     }
 }
