@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 
@@ -16,7 +17,14 @@ public class LoginTest {
 @BeforeEach
 public void setup() {
     WebDriverManager.chromedriver().setup();
-    driver = new ChromeDriver();
+
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--headless");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+
+WebDriver driver = new ChromeDriver(options);
+    
 }
 
 @AfterEach
